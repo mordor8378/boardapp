@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Write Form</title>
+  <link rel="stylesheet" th:href="@{/css/writeform.css}">
+</head>
+<body>
+<div class="form-container">
+  <h1>Update Board</h1>
+  <form th:action="@{/update}" method="post" th:object="${board}">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{createdAt}"/>
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required/>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" th:field="*{title}" required/>
+
+    <label for="content">Content:</label>
+    <textarea id="content" th:field="*{content}" required></textarea>
+
+    <label for="password">Password (for verification):</label>
+    <input type="password" id="password" th:field="*{password}" required/>
+
+    <button type="submit">Update</button>
+  </form>
+  <div th:if="${error}">
+    <p style="color: red;">비밀번호가 틀렸습니다.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${board.title}"></title>
+  <link rel="stylesheet" th:href="@{/css/view.css}">
+</head>
+<body>
+<div class="container">
+  <h1 th:text="${board.title}"></h1>
+  <p><span class="label">Name:</span> <span th:text="${board.name}"></span></p>
+  <p><span class="label">Content:</span> <span th:text="${board.content}"></span></p>
+  <p><span class="label">Created At:</span> <span th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd HH:mm')}"></span></p>
+
+  <div class="links">
+    <a th:href="@{/list}">List</a>
+    <a th:href="@{/updateform(id=${board.id})}">Edit</a>
+    <a th:href="@{/deleteform(id=${board.id})}">Delete</a>
+  </div>
+  <hr />
+  <br />
+  <form th:action="@{/comment/add}" method="post" th:object="${comment}" class="comment-form">
+    <input type="hidden" th:field="*{boardId}"/>
+<!--    <label for="author">Name:</label>-->
+    <input type="text" id="author" placeholder="Name" th:field="*{author}" required/>
+<!--    <label for="content">Comment:</label>-->
+    <input type="text" id="content" placeholder="Comment" th:field="*{content}" required/>
+<!--    <label for="password">Password:</label>-->
+    <input type="password" id="password" placeholder="Password" th:field="*{password}" required/>
+    <button type="submit">Add Comment</button>
+  </form>
+
+  <div th:if="${!#lists.isEmpty(comments)}" class="comments">
+    <h2>Comments</h2>
+    <div th:each="comment : ${comments}" class="comment">
+      <p>
+        <span class="label" th:text="${comment.author}"></span>:
+        <span th:text="${comment.content}"></span>
+      </p>
+      <p class="comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd HH:mm')}"></p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
